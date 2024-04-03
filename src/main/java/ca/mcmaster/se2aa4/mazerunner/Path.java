@@ -75,6 +75,18 @@ public class Path {
         path.add(step);
     }
 
+    public Path copyPath(){
+        Path newPath = new Path();
+        for(int i = 0; i < path.size(); i++){
+            newPath.addStep(path.get(i));
+        }
+        return newPath;
+    }
+
+    public void deleteLast() {
+        path.remove(path.size()-1);
+    }
+
     /**
      * Generates the canonical form of the maze path.
      *
