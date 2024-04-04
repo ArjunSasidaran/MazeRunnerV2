@@ -46,8 +46,6 @@ public class BFSSolver implements MazeSolver {
             //logger.info(direction);
             
             if(currentPos.x() == maze.getEnd().x() && currentPos.y() == maze.getEnd().y()){
-                long endTime = System.currentTimeMillis();
-                System.out.println("ElpasedTime: " + (endTime - startTime));
                 return currentPath;
             }
             
