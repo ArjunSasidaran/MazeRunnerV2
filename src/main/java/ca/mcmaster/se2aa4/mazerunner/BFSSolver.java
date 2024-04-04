@@ -35,22 +35,19 @@ public class BFSSolver implements MazeSolver {
 
         queue.add(pathAndPosition);
 
-
-        logger.info("Maze end x" + maze.getEnd().x());
-        logger.info("Maze end x" + maze.getEnd().y());
-
-
         while(!queue.isEmpty()) {
             PathPositionDirection currentSquare = queue.poll();
             Path currentPath = currentSquare.getPath();
             Position currentPos = currentSquare.getPosition();
             Direction direction = currentSquare.getDirection();
-            logger.info(currentPath.getFactorizedForm());
-            logger.info(currentPos.x());
-            logger.info(currentPos.y());
-            logger.info(direction);
+            //logger.info(currentPath.getFactorizedForm());
+            //logger.info(currentPos.x());
+            //logger.info(currentPos.y());
+            //logger.info(direction);
             
             if(currentPos.x() == maze.getEnd().x() && currentPos.y() == maze.getEnd().y()){
+                long endTime = System.currentTimeMillis();
+                System.out.println("ElpasedTime: " + (endTime - startTime));
                 return currentPath;
             }
             

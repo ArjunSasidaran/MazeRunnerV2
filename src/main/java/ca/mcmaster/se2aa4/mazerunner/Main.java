@@ -26,7 +26,22 @@ public class Main {
                 } else {
                     System.out.println("incorrect path");
                 }
-            } else {
+            } else if(cmd.getOptionValue("method") != null) {
+                String method = cmd.getOptionValue("method");
+                Path path = solveMaze(method, maze);
+                System.out.println(path.getFactorizedForm());
+
+                if(cmd.getOptionValue("baseline") != null){
+                    String baseline = cmd.getOptionValue("baseline");
+                    logger.info(baseline);
+                    Baseline benchmark = new Baseline(maze,method,baseline);
+                    System.out.println(benchmark.calculateSpeed(method, baseline));
+                    System.out.println(benchmark.calculateTime(method));
+                    System.out.println(benchmark.calculateTime(baseline));
+                }
+
+            }
+            else if(cmd.getOptionValue("baseline") != null){
                 String method = cmd.getOptionValue("method", "righthand");
                 Path path = solveMaze(method, maze);
                 System.out.println(path.getFactorizedForm());
@@ -72,6 +87,8 @@ public class Main {
         return solver.solve(maze);
     }
 
+
+
     /**
      * Get options for CLI parser.
      *
@@ -86,6 +103,7 @@ public class Main {
 
         options.addOption(new Option("p", true, "Path to be verified in maze"));
         options.addOption(new Option("method", true, "Specify which path computation algorithm will be used"));
+        options.addOption(new Option("baseline", true, "Specify which path computation algorithm will be tested"));
 
         return options;
     }

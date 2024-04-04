@@ -83,10 +83,6 @@ public class Path {
         return newPath;
     }
 
-    public void deleteLast() {
-        path.remove(path.size()-1);
-    }
-
     /**
      * Generates the canonical form of the maze path.
      *
