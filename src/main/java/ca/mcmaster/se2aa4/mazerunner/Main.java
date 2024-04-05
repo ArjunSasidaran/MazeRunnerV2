@@ -35,9 +35,9 @@ public class Main {
                     String baseline = cmd.getOptionValue("baseline");
                     logger.info(baseline);
                     Baseline benchmark = new Baseline(maze,method,baseline);
-                    System.out.println(benchmark.calculateSpeed(method, baseline));
-                    System.out.println(benchmark.calculateTime(method));
-                    System.out.println(benchmark.calculateTime(baseline));
+                    System.out.println("Speed: " + benchmark.calculateSpeed());
+                    System.out.println(method + " Time: " + benchmark.calculateTime(method));
+                    System.out.println(baseline + " Time: " + benchmark.calculateTime(baseline));
                 }
 
             }
