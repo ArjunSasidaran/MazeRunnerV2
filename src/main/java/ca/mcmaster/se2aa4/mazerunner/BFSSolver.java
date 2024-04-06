@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class BFSSolver implements MazeSolver {
@@ -13,25 +14,26 @@ public class BFSSolver implements MazeSolver {
     private boolean isValidMove(Position pos, boolean[][] visited, Maze maze) {
         int x = pos.x();
         int y = pos.y();
-        return x >= 0 && x < maze.getSizeX() && y >= 0 && y < maze.getSizeY()
-                && !maze.isWall(pos) && !visited[x][y];
+        if(x >= 0 && x < maze.getSizeX() && y >= 0 && y < maze.getSizeY() && !maze.isWall(pos) && !visited[x][y])
+            return true;
+        else
+            return false;
     }
+
 
     @Override
     public Path solve(Maze maze) {
 
-        Path path = new Path();
-        
-        Queue<PathPositionDirection> queue = new LinkedList();
         boolean[][] visited = new boolean[maze.getSizeX()][maze.getSizeY()]; 
-
-        Position position = maze.getStart();
-
         visited[maze.getStart().x()][maze.getStart().y()] = true;
-
+        
+        Path path = new Path();
+        Position position = maze.getStart();
         Direction dir = Direction.RIGHT;
 
         PathPositionDirection pathAndPosition = new PathPositionDirection(path, position, dir);
+
+        Queue<PathPositionDirection> queue = new LinkedList();
 
         queue.add(pathAndPosition);
 
@@ -40,68 +42,50 @@ public class BFSSolver implements MazeSolver {
             Path currentPath = currentSquare.getPath();
             Position currentPos = currentSquare.getPosition();
             Direction direction = currentSquare.getDirection();
-            //logger.info(currentPath.getFactorizedForm());
-            //logger.info(currentPos.x());
-            //logger.info(currentPos.y());
-            //logger.info(direction);
             
             if(currentPos.x() == maze.getEnd().x() && currentPos.y() == maze.getEnd().y()){
                 return currentPath;
             }
             
+            // check all directions
             for (int i = 0; i < 4; i++) {
-                Direction nextDir = direction.turnRight();
-                Position nextMove = currentPos.move(nextDir);
+                // get the direction
+                Direction nextDir = direction;
                 Path newPath = currentPath.copyPath();
-
-                if (isValidMove(nextMove, visited, maze)) {
-                    if(i == 3){
+            
+                switch (i) {
+                    case 0:
                         newPath.addStep('F');
-                        queue.add(new PathPositionDirection(newPath, nextMove, nextDir));
-                        visited[nextMove.x()][nextMove.y()] = true;
-                    }
-                    else if(i == 2){
+                        break;
+                    case 1:
+                        nextDir = direction.turnRight();
+                        newPath.addStep('R');
+                        newPath.addStep('F');
+                        break;
+                    case 2:
+                        nextDir = direction.turnLeft();
                         newPath.addStep('L');
                         newPath.addStep('F');
-                        queue.add(new PathPositionDirection(newPath, nextMove, nextDir));
-                        visited[nextMove.x()][nextMove.y()] = true;
-                    }
-                    else if(i == 1){
+                        break;
+                    case 3:
+                        nextDir = direction.turnRight().turnRight();
                         newPath.addStep('R');
                         newPath.addStep('R');
                         newPath.addStep('F');
-                        queue.add(new PathPositionDirection(newPath, nextMove, nextDir));
-                        visited[nextMove.x()][nextMove.y()] = true;
-                    }
-                    else{
-                        newPath.addStep('R');
-                        newPath.addStep('F');
-                        queue.add(new PathPositionDirection(newPath, nextMove, nextDir));
-                        visited[nextMove.x()][nextMove.y()] = true;
-                    }
-                   
+                        break;
                 }
-
-                direction = nextDir;
-            }
-
-
-            /* 
-            Position nextMove = currentPos.move(dir);
             
-            if(visited[nextMove.x()][nextMove.y()] == false && !maze.isWall(nextMove)){
-                currentPath = currentPath.addStep('F');
-                currentPos = currentPos.move(dir);
-                visited[currentPos.x()][currentPos.y()] = true;
-                PathPosition temp = new PathPosition(currentPath,currentPos);
-                queue.add(temp);
+                Position nextMove = currentPos.move(nextDir);
+            
+                if (isValidMove(nextMove, visited, maze)) {
+                    queue.add(new PathPositionDirection(newPath, nextMove, nextDir));
+                    visited[nextMove.x()][nextMove.y()] = true;
+                }
             }
-            */
-
-           
-           
         }
+            
         logger.debug("Current Position: " + position.toString() + "\n Current Path: " + path.getCanonicalForm());
         return null;
+
     }
 }

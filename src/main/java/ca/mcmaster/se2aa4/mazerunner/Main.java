@@ -34,7 +34,7 @@ public class Main {
                 if(cmd.getOptionValue("baseline") != null){
                     String baseline = cmd.getOptionValue("baseline");
                     logger.info(baseline);
-                    Baseline benchmark = new Baseline(maze,method,baseline);
+                    Benchmark benchmark = new Benchmark(maze,method,baseline);
                     System.out.println("Speed: " + benchmark.calculateSpeed());
                     System.out.println(method + " Time: " + benchmark.calculateTime(method));
                     System.out.println(baseline + " Time: " + benchmark.calculateTime(baseline));
