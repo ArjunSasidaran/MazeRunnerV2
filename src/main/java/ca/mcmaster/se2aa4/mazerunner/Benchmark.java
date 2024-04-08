@@ -7,9 +7,10 @@ public class Benchmark {
 
     private static final Logger logger = LogManager.getLogger();
 
-    Maze maze;
-    String method;
-    String baseline;
+    private Maze maze;
+    private String method;
+    private String baseline;
+    private MazeSolverFactory solverFactory = new MazeSolverFactory();
 
     public Benchmark(Maze maze, String method, String baseline){
         this.maze = maze;
@@ -17,36 +18,10 @@ public class Benchmark {
         this.baseline = baseline;
     }
 
-    private Path solveMaze(String method) throws Exception {
-        logger.debug(method + " algorithm chosen.");
-        MazeSolver solver = null;
-        switch (method) {
-            case "righthand" -> {
-                logger.debug("RightHand algorithm chosen.");
-                solver = new RightHandSolver();
-            }
-            case "tremaux" -> {
-                logger.debug("Tremaux algorithm chosen.");
-                solver = new TremauxSolver();
-            }
-            case "bfs" ->{
-                logger.debug("BFS algorithm chosen.");
-                solver = new BFSSolver();
-            }
-            default -> {
-                throw new Exception("Maze solving method '" + method + "' not supported.");
-            }
-        }
-
-        logger.info("Computing path");
-        return solver.solve(maze);
-    }
-
-
 
     public double calculateTime(String method1) throws Exception{
         long startTime = System.nanoTime();
-        Path path = solveMaze(method1);
+        Path path = solverFactory.createSolver(method1).solve(maze);
         long endTime = System.nanoTime();
 
         long elapsedTime = endTime - startTime;
@@ -59,8 +34,8 @@ public class Benchmark {
 
     public String calculateSpeed() throws Exception{
 
-        Path methodPath = solveMaze(method);
-        Path baselinePath = solveMaze(baseline);
+        Path methodPath = solverFactory.createSolver(method).solve(maze);
+        Path baselinePath = solverFactory.createSolver(baseline).solve(maze);
 
         double speed = (double) baselinePath.getCanonicalForm().length()/methodPath.getCanonicalForm().length();
         String formattedSpeed = String.format("%.2f", speed);
