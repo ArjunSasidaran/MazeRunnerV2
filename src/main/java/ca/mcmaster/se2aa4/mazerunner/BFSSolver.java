@@ -76,7 +76,7 @@ public class BFSSolver implements MazeSolver {
                 }
             
                 Position nextMove = currentPos.move(nextDir);
-            
+                
                 if (isValidMove(nextMove, visited, maze)) {
                     queue.add(new PathPositionDirection(newPath, nextMove, nextDir));
                     visited[nextMove.x()][nextMove.y()] = true;

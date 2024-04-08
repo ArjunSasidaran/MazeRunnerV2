@@ -15,25 +15,30 @@ public class Benchmark {
         this.maze = maze;
         this.method = method;
         this.baseline = baseline;
-
     }
 
-    private Path solveMaze(String solvingMethod) throws Exception {
-        logger.debug(solvingMethod + " algorithm chosen.");
-        MazeSolver solver;
-        switch (solvingMethod) {
-            case "righthand":
+    private Path solveMaze(String method) throws Exception {
+        logger.debug(method + " algorithm chosen.");
+        MazeSolver solver = null;
+        switch (method) {
+            case "righthand" -> {
+                logger.debug("RightHand algorithm chosen.");
                 solver = new RightHandSolver();
-                break;
-            case "tremaux":
+            }
+            case "tremaux" -> {
+                logger.debug("Tremaux algorithm chosen.");
                 solver = new TremauxSolver();
-                break;
-            case "bfs":
+            }
+            case "bfs" ->{
+                logger.debug("BFS algorithm chosen.");
                 solver = new BFSSolver();
-                break;
-            default:
-                throw new Exception("Maze solving method '" + solvingMethod + "' not supported.");
+            }
+            default -> {
+                throw new Exception("Maze solving method '" + method + "' not supported.");
+            }
         }
+
+        logger.info("Computing path");
         return solver.solve(maze);
     }
 
