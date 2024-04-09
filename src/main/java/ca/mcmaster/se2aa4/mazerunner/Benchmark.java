@@ -8,14 +8,10 @@ public class Benchmark {
     private static final Logger logger = LogManager.getLogger();
 
     private Maze maze;
-    private String method;
-    private String baseline;
     private MazeSolverFactory solverFactory;
 
-    public Benchmark(Maze maze, String method, String baseline){
+    public Benchmark(Maze maze){
         this.maze = maze;
-        this.method = method;
-        this.baseline = baseline;
         this.solverFactory = new MazeSolverFactory();
     }
 
@@ -32,10 +28,10 @@ public class Benchmark {
 
     }
 
-
-    public double calculateTime(String method1) throws Exception{
+    public double calculateTime(String method) throws Exception{
         long startTime = System.nanoTime();
-        Path path = solverFactory.createSolver(method1).solve(maze);
+        MazeSolver mazeSolver = solverFactory.createSolver(method);
+        Path path = mazeSolver.solve(maze);
         long endTime = System.nanoTime();
 
         long elapsedTime = endTime - startTime;
@@ -46,10 +42,13 @@ public class Benchmark {
 
     }
 
-    public String calculateSpeed() throws Exception{
+    public String calculateSpeed(String method, String baseline) throws Exception{
 
-        Path methodPath = solverFactory.createSolver(method).solve(maze);
-        Path baselinePath = solverFactory.createSolver(baseline).solve(maze);
+        MazeSolver methodSolver = solverFactory.createSolver(method);
+        MazeSolver baselineSolver = solverFactory.createSolver(baseline);
+
+        Path methodPath = methodSolver.solve(maze);
+        Path baselinePath = baselineSolver.solve(maze);
 
         double speed = (double) baselinePath.getCanonicalForm().length()/methodPath.getCanonicalForm().length();
         String formattedSpeed = String.format("%.2f", speed);

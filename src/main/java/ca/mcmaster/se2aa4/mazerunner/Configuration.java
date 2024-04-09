@@ -78,8 +78,8 @@ public class Configuration {
         }
         
         String baseline = cmd.getOptionValue("baseline");
-        Benchmark benchmark = new Benchmark(maze, method, baseline);
-        System.out.println("Speed: " + benchmark.calculateSpeed());
+        Benchmark benchmark = new Benchmark(maze);
+        System.out.println("Speed: " + benchmark.calculateSpeed(method,baseline));
         System.out.println(method + " Time: " + benchmark.calculateTime(method));
         System.out.println(baseline + " Time: " + benchmark.calculateTime(baseline));
         System.out.println("Maze Load Time: " + benchmark.calculateMazeLoadTime(filePath));
