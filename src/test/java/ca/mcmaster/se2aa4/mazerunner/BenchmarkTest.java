@@ -22,7 +22,7 @@ class BenchmarkTest {
 
     @Test
     void testCalculateTime() {
-
+        
         try{
             double time1 = benchmark.calculateTime("righthand");
             double time2 = benchmark.calculateTime("bfs");
@@ -32,8 +32,6 @@ class BenchmarkTest {
         catch(Exception e){
             System.out.println(e);
         }
-      
-       
         
     }
 
