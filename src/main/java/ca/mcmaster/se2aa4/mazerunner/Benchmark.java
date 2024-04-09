@@ -10,12 +10,26 @@ public class Benchmark {
     private Maze maze;
     private String method;
     private String baseline;
-    private MazeSolverFactory solverFactory = new MazeSolverFactory();
+    private MazeSolverFactory solverFactory;
 
     public Benchmark(Maze maze, String method, String baseline){
         this.maze = maze;
         this.method = method;
         this.baseline = baseline;
+        this.solverFactory = new MazeSolverFactory();
+    }
+
+    public double calculateMazeLoadTime(String filepath) throws Exception{
+        long startTime = System.nanoTime();
+        Maze maze = new Maze(filepath);
+        long endTime = System.nanoTime();
+
+        long elapsedTime = endTime - startTime;
+        double milliseconds = elapsedTime / 1000000.0;
+        double roundedTime = Math.round(milliseconds * 100.0) / 100.0;
+
+        return roundedTime;
+
     }
 
 

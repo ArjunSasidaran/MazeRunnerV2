@@ -32,7 +32,9 @@ public class Configuration {
     }
 
     private void processCmdLine(CommandLine cmd) throws Exception {
-        Maze maze = loadMaze(cmd.getOptionValue("i"));
+
+        String filePath = cmd.getOptionValue("i");
+        Maze maze = loadMaze(filePath);
         
         if (cmd.hasOption("p")) {
             Path path = new Path(cmd.getOptionValue("p"));
@@ -44,7 +46,7 @@ public class Configuration {
         } else if (cmd.hasOption("method")) {
             processMazeSolve(cmd, maze);
             if(cmd.hasOption("baseline")){
-                processBaseline(cmd, maze);
+                processBaseline(cmd, maze,filePath);
             }
         }
         else{
@@ -58,13 +60,14 @@ public class Configuration {
         System.out.println(path.getFactorizedForm());
     }
 
-    private void processBaseline(CommandLine cmd, Maze maze) throws Exception{
+    private void processBaseline(CommandLine cmd, Maze maze, String filePath) throws Exception{
         String method = cmd.getOptionValue("method", "righthand");
         String baseline = cmd.getOptionValue("baseline");
         Benchmark benchmark = new Benchmark(maze, method, baseline);
         System.out.println("Speed: " + benchmark.calculateSpeed());
         System.out.println(method + " Time: " + benchmark.calculateTime(method));
         System.out.println(baseline + " Time: " + benchmark.calculateTime(baseline));
+        System.out.println("Maze Load Time: " + benchmark.calculateMazeLoadTime(filePath));
     }
 
     private Options getParserOptions() {
