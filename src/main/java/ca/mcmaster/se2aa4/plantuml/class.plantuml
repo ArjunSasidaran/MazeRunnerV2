@@ -1,0 +1,49 @@
+@startuml Class Diagram
+
+class Main
+class Configuration
+class Maze
+class MazeSolverFactory
+interface MazeSolver {
+    + solve(maze: Maze): Path
+}
+class Benchmark
+class BFSSolver
+class RightHandSolver
+class TremauxSolver
+class Path
+class PathPositionDirection
+class Position
+enum Direction
+
+Main --> Configuration
+Configuration --> Maze
+Configuration --> MazeSolverFactory
+Benchmark --> Maze
+Benchmark --> MazeSolverFactory
+Maze --> Position
+
+class MazeSolverFactory{
+    + createSolver(method: string): MazeSolver
+}
+
+MazeSolverFactory ..> RightHandSolver
+MazeSolverFactory ..> BFSSolver
+MazeSolverFactory ..> TremauxSolver
+
+Class RightHandSolver implements MazeSolver
+Class BFSSolver implements MazeSolver
+Class TremauxSolver implements MazeSolver
+
+BFSSolver --> PathPositionDirection
+RightHandSolver --> Path 
+RightHandSolver --> Position  
+RightHandSolver --> Direction
+TremauxSolver --> Path 
+TremauxSolver --> Position  
+TremauxSolver --> Direction
+PathPositionDirection o-- Path
+PathPositionDirection o-- Position
+PathPositionDirection o-- Direction
+
+@enduml

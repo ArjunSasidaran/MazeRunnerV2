@@ -1,0 +1,46 @@
+@startuml
+skinparam participantPadding 20
+skinparam boxPadding 20
+skinparam maxMessageSize 100
+
+participant "Main" as Main
+participant "Configuration" as Configuration
+participant "Maze" as Maze
+participant "MazeSolverFactory" as SolverFactory
+participant "MazeSolver" as Solver
+participant "Benchmark" as Benchmark
+participant "Output (Console)" as Console
+
+Main -> Configuration: configure(args)
+activate Configuration
+Configuration -> Configuration: parseCmdLine()
+activate Maze
+Configuration -> Maze: readFile()
+alt Path Validation
+    Configuration -> Maze: validatePath(path)
+    Maze --> Configuration: isValid
+    deactivate Maze
+    Configuration -> Console: print(isValid)
+end
+alt Solve Method
+    Configuration -> SolverFactory: createSolver(method)
+    activate SolverFactory
+    SolverFactory -> Solver: solve(maze)
+    activate Solver
+    Solver --> Configuration: Path
+    deactivate Solver
+    deactivate SolverFactory
+    Configuration -> Console: printPath(path)
+end
+alt Baseline Method
+    Configuration -> Benchmark: new Benchmark(maze, filepath)
+    activate Benchmark
+    Benchmark -> Benchmark: calculateMazeLoadTime(filepath)
+    Benchmark -> Benchmark: calculateSpeed(method, baseline)
+    Benchmark -> Benchmark: calculateTime(method)
+    Benchmark --> Configuration: Speed, Time, Maze Load Time
+    deactivate Benchmark
+    Configuration -> Console: printBenchmarkResults()
+end
+deactivate Configuration
+@enduml
