@@ -1,10 +1,12 @@
-# Assignment A1 - Maze Runner
+# Assignment A3 - Maze Runner, Take Two
 
 * **Student**: [Arjun Sasidaran](sasidara@mcmaster.ca)
 * **Program**: B. Eng. In Software Engineering
 * **Course code**: SFWRENG 2AA4
 * **Course Title**: Software Design I - Introduction to Software Development
 * Term: *Level II - Winter 2024*
+
+Credit to Alexandre as the author for the starter code
 
 ## Business Logic Specification
 
@@ -36,42 +38,6 @@ To build the program, simply package it with Maven:
 mosser@azrael A1-Template % mvn -q clean package 
 ```
 
-### Provided version (starter code)
-
-The starter code assumes the maze file name is the first argument.
-
-```
-mosser@azrael A1-Template % java -jar target/mazerunner.jar ./examples/small.maz.txt
-** Starting Maze Runner
-**** Reading the maze from file ./examples/small.maz.txt
-WALL WALL WALL WALL WALL WALL WALL WALL WALL WALL WALL 
-WALL PASS PASS PASS PASS PASS PASS PASS PASS PASS WALL 
-WALL WALL WALL PASS WALL WALL WALL PASS WALL WALL WALL 
-WALL PASS PASS PASS PASS PASS WALL PASS PASS PASS WALL 
-WALL PASS WALL PASS WALL WALL WALL WALL WALL PASS WALL 
-WALL PASS WALL PASS PASS PASS PASS PASS WALL PASS PASS 
-WALL WALL WALL PASS WALL PASS WALL WALL WALL WALL WALL 
-WALL PASS PASS PASS WALL PASS PASS PASS PASS PASS WALL 
-PASS PASS WALL PASS WALL PASS WALL WALL WALL PASS WALL 
-WALL PASS WALL PASS WALL PASS WALL PASS PASS PASS WALL 
-WALL WALL WALL WALL WALL WALL WALL WALL WALL WALL WALL 
-**** Computing path
-PATH NOT COMPUTED
-** End of MazeRunner
-```
-
-When called on a non-existing file. it prints an error message
-
-```
-mosser@azrael A1-Template % java -jar target/mazerunner.jar ./examples/small.maz.txtd
-** Starting Maze Runner
-**** Reading the maze from file ./examples/small.maz.txtd
-/!\ An error has occured /!\
-**** Computing path
-PATH NOT COMPUTED
-** End of MazeRunner
-```
-
 ### Delivered version
 
 #### Command line arguments
@@ -83,7 +49,15 @@ The delivered program at the end of this assignment should use the following fla
 
 If you are also delivering the bonus, your program will react to a third flag:
 
-- `-method {tremaux, righthand}`: specifies which path computation method to use. (default is right hand)
+- `-method {tremaux, righthand, bfs}`: specifies which path computation method to use. (default is right hand)
+- `-baseline {tremaux, righthand, bfs}`: specifies which path computation method as a comparision baseline. When run in benchmark mode, the code will:
+    - Print on stdout the time spent loading the maze from the file
+
+    -   Print on stdout the time spent exploring the maze using the provided `-method`
+
+    - Print on stdout the time spent exploring the maze using the provided `-baseline`
+
+    - Print on stdout the improvement on the path as a speedup: Speedup = |path| baseline / |path| method
 
 #### Examples
 
@@ -109,5 +83,15 @@ If a given path is incorrect, the program prints the message `incorrect path` on
 mosser@azrael A1-Template % java -jar target/mazerunner.jar -i ./examples/straight.maz.txt -p 3F
 inccorrect path
 mosser@azrael A1-Template %
+```
+If a `method` and `baseline` is passed in, the program will print out the `path` of the method, the `speed`, and the `stdout time` for `baseline`, `method` and `maze load time`.
+
+```
+java -jar target/mazerunner.jar -i ./examples/direct.maz.txt -method bfs -baseline righthand
+F R 2F L 4F R 2F L 2F
+Speed: 1.26
+bfs Time: 0.3
+righthand Time: 1.06
+Maze Load Time: 0.26
 ```
 
