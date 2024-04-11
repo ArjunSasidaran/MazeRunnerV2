@@ -11,7 +11,7 @@ public class MazeSolverFactory {
             case "bfs":
                 return new BFSSolver();
             default:
-                throw new Exception("Maze solving method '" + method + "' not supported.");
+                throw new Exception("Maze solving method " + method + " not supported.");
         }
 
     }

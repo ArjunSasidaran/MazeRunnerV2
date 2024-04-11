@@ -14,7 +14,13 @@ public class BFSSolver implements MazeSolver {
     private boolean isValidMove(Position pos, boolean[][] visited, Maze maze) {
         int x = pos.x();
         int y = pos.y();
-        if(x >= 0 && x < maze.getSizeX() && y >= 0 && y < maze.getSizeY() && !maze.isWall(pos) && !visited[x][y])
+        
+        // check if in bounds
+        if(!(x >= 0 && x < maze.getSizeX() && y >= 0 && y < maze.getSizeY())) 
+            return false;
+
+        // check if there is a wall and if a node has already been visited
+        if(!maze.isWall(pos) && !visited[x][y])
             return true;
         else
             return false;
@@ -54,19 +60,23 @@ public class BFSSolver implements MazeSolver {
                 Path newPath = currentPath.copyPath();
             
                 switch (i) {
+                    // facing forward
                     case 0:
                         newPath.addStep('F');
                         break;
+                    // facing right
                     case 1:
                         nextDir = direction.turnRight();
                         newPath.addStep('R');
                         newPath.addStep('F');
                         break;
+                    // facing left
                     case 2:
                         nextDir = direction.turnLeft();
                         newPath.addStep('L');
                         newPath.addStep('F');
                         break;
+                    // facing behind
                     case 3:
                         nextDir = direction.turnRight().turnRight();
                         newPath.addStep('R');
@@ -74,9 +84,10 @@ public class BFSSolver implements MazeSolver {
                         newPath.addStep('F');
                         break;
                 }
-            
+                
                 Position nextMove = currentPos.move(nextDir);
                 
+                // check if the nextMove is available
                 if (isValidMove(nextMove, visited, maze)) {
                     queue.add(new PathPositionDirection(newPath, nextMove, nextDir));
                     visited[nextMove.x()][nextMove.y()] = true;

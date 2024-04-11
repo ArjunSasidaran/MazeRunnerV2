@@ -35,14 +35,16 @@ public class Benchmark {
         long endTime = System.nanoTime();
 
         long elapsedTime = endTime - startTime;
+        // convert nano to milli
         double milliseconds = elapsedTime / 1000000.0;
+        // rounds to two decimal places
         double roundedTime = Math.round(milliseconds * 100.0) / 100.0;
 
         return roundedTime;
 
     }
 
-    public String calculateSpeed(String method, String baseline) throws Exception{
+    public double calculateSpeed(String method, String baseline) throws Exception{
 
         MazeSolver methodSolver = solverFactory.createSolver(method);
         MazeSolver baselineSolver = solverFactory.createSolver(baseline);
@@ -50,10 +52,13 @@ public class Benchmark {
         Path methodPath = methodSolver.solve(maze);
         Path baselinePath = baselineSolver.solve(maze);
 
-        double speed = (double) baselinePath.getCanonicalForm().length()/methodPath.getCanonicalForm().length();
-        String formattedSpeed = String.format("%.2f", speed);
+        String methodString = methodPath.getCanonicalForm();
+        String baselineString = baselinePath.getCanonicalForm();
 
-        return formattedSpeed;
+        double speed = (double) methodString.length() / baselineString.length();
+        speed = Math.round(speed * 100.0) / 100.0;
+
+        return speed;
     }
 
 

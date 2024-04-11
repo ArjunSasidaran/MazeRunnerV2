@@ -52,7 +52,7 @@ public class MazeSolverFactoryTest {
             MazeSolver solver = solveFactory.createSolver("dfs"); 
             fail("Expected an exception for unsupported type ");
         } catch (Exception e) {
-            assertEquals("Maze solving method 'dfs' not supported.", e.getMessage());
+            assertEquals("Maze solving method dfs not supported.", e.getMessage());
         }
     }
 }

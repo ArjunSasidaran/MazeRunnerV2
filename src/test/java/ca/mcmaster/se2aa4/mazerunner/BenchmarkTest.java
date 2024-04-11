@@ -52,22 +52,22 @@ class BenchmarkTest {
 
     @Test
     public void testCalculateSpeed1() throws Exception{
-        String speed = benchmark.calculateSpeed("bfs","righthand");
-        assertTrue(Double.valueOf(speed) >= 0, "speed should be non negative");
+        double speed = benchmark.calculateSpeed("bfs","righthand");
+        assertTrue(speed >= 0, "Speed should be non negative.");
         assertNotNull(speed, "Speed should not be null.");
     }
 
     @Test
     public void testCalculateSpeed2() throws Exception{
-        String speed = benchmark.calculateSpeed("bfs","tremaux");
-        assertTrue(Double.valueOf(speed) >= 0, "speed should be non negative");
+        double speed = benchmark.calculateSpeed("bfs","tremaux");
+        assertTrue(speed >= 0, "Speed should be non negative.");
         assertNotNull(speed, "Speed should not be null.");
     }
 
     @Test
     public void testCalculateSpeed3() throws Exception{
-        String speed = benchmark.calculateSpeed("tremaux","righthand");
-        assertTrue(Double.valueOf(speed) >= 0, "speed should be non negative");
+        double speed = benchmark.calculateSpeed("tremaux","righthand");
+        assertTrue(speed >= 0, "Speed should be non negative.");
         assertNotNull(speed, "Speed should not be null.");
     }
 }
