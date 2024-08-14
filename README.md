@@ -1,12 +1,4 @@
-# Assignment A3 - Maze Runner, Take Two
-
-* **Student**: [Arjun Sasidaran](sasidara@mcmaster.ca)
-* **Program**: B. Eng. In Software Engineering
-* **Course code**: SFWRENG 2AA4
-* **Course Title**: Software Design I - Introduction to Software Development
-* Term: *Level II - Winter 2024*
-
-Credit to Alexandre as the author for the starter code
+# Maze Runner, Take Two
 
 ## Business Logic Specification
 
@@ -27,7 +19,6 @@ This program explores a maze, finding a path from an entry point to an exit one.
 - A factorized path squashes together similar instructions (i.e., `FFF` = `3F`, `LL` = `2L`).
 - Spaces are ignored in the instruction sequence (only for readability: `FFLFF` = `FF L FF`)
 - The program takes as input a maze and print the path on the standard output.
-    - For this assignment, the path does not have to be the shortest one.
 - The program can take a path as input and verify if it's a legit one.
 
 ## How to run this software?
@@ -42,13 +33,10 @@ mosser@azrael A1-Template % mvn -q clean package
 
 #### Command line arguments
 
-The delivered program at the end of this assignment should use the following flags:
+The program should use the following flags:
 
 - `-i MAZE_FILE`: specifies the filename to be used;
 - `-p PATH_SEQUENCE`: activates the path verification mode to validate that PATH_SEQUENCE is correct for the maze
-
-If you are also delivering the bonus, your program will react to a third flag:
-
 - `-method {tremaux, righthand, bfs}`: specifies which path computation method to use. (default is right hand)
 - `-baseline {tremaux, righthand, bfs}`: specifies which path computation method as a comparision baseline. When run in benchmark mode, the code will:
     - Print on stdout the time spent loading the maze from the file
